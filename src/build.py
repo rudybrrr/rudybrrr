@@ -339,44 +339,50 @@ def embedding(th, W):
         for i, (dx, dy) in enumerate([(3, -4), (-4, 2), (2, 4), (-3, -3)])] + [
         '@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}'
         '.hull{transform-box:fill-box;transform-origin:50% 50%;animation:breathe 7s ease-in-out infinite}']
-    rowh = 27
+    # Phones show this at ~81%, so their text starts bigger; clusters sit 2x2 with a gutter for Rudy.
+    rowh, tsize, lsize, gutter = (34, 16, 14, 64) if narrow else (27, 12.5, 11.5, 0)
     H = 0
     hulls = []
+    row_bottom = [0, 0]
     for k, (name, (cx, cy, tools)) in enumerate(EMBEDDING.items()):
         if narrow:
-            ox, oy, cols = 14 + (k % 2) * W / 2, 40 + (k // 2) * 260, 1
+            r = k // 2
+            ox, cols = 14 + (k % 2) * (W / 2 + 6), 1
+            oy = 44 if r == 0 else row_bottom[0] + gutter + 30
         else:
             ox, oy, cols = cx * W - 150, cy * 420 - 60, 2
         rows = math.ceil(len(tools) / cols)
-        bw, bh = (W / 2 - 34 if narrow else 300), rows * rowh + 34
+        bw, bh = (W / 2 - 6 if narrow else 300), rows * rowh + (40 if narrow else 34)
         d.add(f'<rect class="hull" style="animation-delay:{-k * 1.7:.1f}s" x="{ox - 14:.1f}" y="{oy - 30:.1f}" width="{bw:.1f}" '
               f'height="{bh:.1f}" rx="22" fill="{t["chip"][k]}" opacity=".55"/>')
-        d.text(name, ox, oy - 8, 11.5, t['muted'], 'label', attrs=at(0.3 + k * 0.1))
+        d.text(name, ox, oy - (6 if narrow else 8), lsize, t['muted'], 'label', attrs=at(0.3 + k * 0.1))
         for i, tool in enumerate(tools):
             px = ox + (i % cols) * 150 + (0 if narrow else (i // cols % 2) * 10)
-            py = oy + 18 + (i // cols) * rowh + (0 if narrow else (i % cols) * 8)
+            py = oy + (26 if narrow else 18) + (i // cols) * rowh + (0 if narrow else (i % cols) * 8)
             d.add(f'<g style="animation:f{(i + k) % 4} {6 + (i * 1.3 + k) % 4:.1f}s ease-in-out {-i * 0.9:.1f}s infinite">'
-                  f'<g {at(0.4 + k * 0.1 + i * 0.05)}><circle cx="{px:.1f}" cy="{py - 4:.1f}" r="4" fill="{t["deep"][k]}"/>')
-            d.text(tool, px + 11, py, 12.5, t['ink'])
+                  f'<g {at(0.4 + k * 0.1 + i * 0.05)}><circle cx="{px:.1f}" cy="{py - tsize * 0.32:.1f}" r="{5 if narrow else 4}" fill="{t["deep"][k]}"/>')
+            d.text(tool, px + (13 if narrow else 11), py, tsize, t['ink'])
             d.add('</g></g>')
+        if narrow:
+            row_bottom[k // 2] = max(row_bottom[k // 2], oy - 30 + bh)
         H = max(H, oy - 30 + bh)
         hulls.append((ox - 14 + bw / 2, oy - 30 + bh / 2, t['deep'][k]))
     # Rudy sits between the clusters (the full-stack part), attending to all four.
-    rx, ry = (W / 2 - 24, H + 36) if narrow else (W * 0.44, 420 * 0.52 - 14)
+    rx, ry = (W / 2 - 30, row_bottom[0] + gutter / 2) if narrow else (W * 0.44, 420 * 0.52 - 14)
     d.css.append('@keyframes march{to{stroke-dashoffset:-16}}.att{animation:march 1.6s linear infinite}')
-    if not narrow:
-        lines = ''.join(f'<g {at(1.3 + k * 0.1)}><line class="att" x1="{rx:.1f}" y1="{ry:.1f}" x2="{hx:.1f}" y2="{hy:.1f}" '
-                        f'stroke="{col}" stroke-width="1.2" stroke-dasharray="2 6" opacity=".7"/></g>'
-                        for k, (hx, hy, col) in enumerate(hulls))
-        d.body.insert(0, lines)  # under the hulls
+    lines = ''.join(f'<g {at(1.3 + k * 0.1)}><line class="att" x1="{rx:.1f}" y1="{ry:.1f}" x2="{hx:.1f}" y2="{hy:.1f}" '
+                    f'stroke="{col}" stroke-width="1.2" stroke-dasharray="2 6" opacity=".7"/></g>'
+                    for k, (hx, hy, col) in enumerate(hulls))
+    d.body.insert(0, lines)  # under the hulls
     d.add(f'<g {at(1.2)}>')
     live_dot(d, rx, ry, t['ink'], 5)
-    d.text('rudy', rx + 12, ry + 4.5, 13.5, t['ink'], 'display')
+    d.text('rudy', rx + 12, ry + (5.5 if narrow else 4.5), 16 if narrow else 13.5, t['ink'], 'display')
     d.add('</g>')
     y = max(H, ry) + 44
-    for line in wrap('Fig. 2. Toolbox embedding. Hand-placed, not t-SNE; distances are vibes.', 12, W, 'label'):
-        d.text(line, 0, y, 12, t['muted'], 'label')
-        y += 18
+    csize = 14 if narrow else 12
+    for line in wrap('Fig. 2. Toolbox embedding. Hand-placed, not t-SNE; distances are vibes.', csize, W, 'label'):
+        d.text(line, 0, y, csize, t['muted'], 'label')
+        y += csize * 1.5
     d.h = y
     d.save(f'embedding-{th}' + ('-m' if narrow else ''))
 

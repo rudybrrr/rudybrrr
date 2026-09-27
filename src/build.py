@@ -166,19 +166,25 @@ def hero(th, W):
     gap = 6 if narrow else 8
     padx = 0.12
     widths = [measure(tok, 100, 'display') for tok, _ in NAME_TOKENS]
-    size = (W - 2 * pad - gap * (len(NAME_TOKENS) - 1)) / (sum(widths) / 100 + 2 * padx * len(NAME_TOKENS))
+    # Phones wrap the name after "hresh" so the chips can be sized to the longer line, not all four.
+    rows = [[0, 1], [2, 3]] if narrow else [list(range(len(NAME_TOKENS)))]
+    size = min((W - 2 * pad - gap * (len(r) - 1)) / (sum(widths[i] for i in r) / 100 + 2 * padx * len(r)) for r in rows)
     top = y + (40 if narrow else 48)
-    ch = size * 1.12
-    x = pad
-    for i, (tok, tid) in enumerate(NAME_TOKENS):
-        w = widths[i] * size / 100 + 2 * padx * size
-        a = 0.25 + i * 0.16
-        d.add(f'<g class="chip" style="animation-delay:{a:.2f}s">'
-              f'<rect x="{x:.1f}" y="{top:.1f}" width="{w:.1f}" height="{ch:.1f}" rx="{size * 0.14:.1f}" fill="{t["chip"][i % 5]}"/>')
-        d.text(tok, x + padx * size, top + ch * 0.74, size, t['ink'], 'display')
-        d.add('</g>')
-        d.text(str(tid), x + 2, top + ch + 20, 11.5, t['muted'], 'label', attrs=at(a + 0.25))
-        x += w + gap
+    ch = size * 1.18  # ascenders reach 0.848em; the baseline below centres them
+    for r in rows:
+        x = pad
+        for i in r:
+            tok, tid = NAME_TOKENS[i]
+            w = widths[i] * size / 100 + 2 * padx * size
+            a = 0.25 + i * 0.16
+            d.add(f'<g class="chip" style="animation-delay:{a:.2f}s">'
+                  f'<rect x="{x:.1f}" y="{top:.1f}" width="{w:.1f}" height="{ch:.1f}" rx="{size * 0.14:.1f}" fill="{t["chip"][i % 5]}"/>')
+            d.text(tok, x + padx * size, top + (ch + size * 0.848) / 2, size, t['ink'], 'display')
+            d.add('</g>')
+            d.text(str(tid), x + 2, top + ch + 20, 11.5, t['muted'], 'label', attrs=at(a + 0.25))
+            x += w + gap
+        top += ch + 34
+    top -= ch + 34
 
     # Prompt, then the answer streamed.
     y = top + ch + (62 if narrow else 72)

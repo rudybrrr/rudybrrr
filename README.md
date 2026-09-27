@@ -103,6 +103,9 @@ Every project, grouped. Names open the case study; *code* opens the repo.
 
 </details>
 
+> [!TIP]
+> **There’s more than what’s on GitHub.** Some of my work lives in private repos or never had one. To know more about me, or see projects that aren’t here, head to [rudhresh.com](https://www.rudhresh.com) or email me at [rudy.rudhresh@gmail.com](mailto:rudy.rudhresh@gmail.com).
+
 ## Toolbox
 
 <picture><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/embedding-dark-m.svg"><source media="(max-width: 600px)" srcset="assets/embedding-light-m.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/embedding-dark.svg"><img src="assets/embedding-light.svg" width="100%" alt="Fig. 2. Toolbox embedding: modelling: Python, TensorFlow, Keras, Plotly, Dash, OR-Tools; systems: FastAPI, Pydantic, SQLModel, asyncio, WebSockets, Express, MySQL; product: Next.js, React, TypeScript, Supabase, Clerk, Vitest; LLMs: OpenAI, Claude, Groq Whisper, Daytona"></picture>

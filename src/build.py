@@ -259,17 +259,19 @@ def training(th, W):
     for v in (0.25, 0.5, 0.75, 1.0) if narrow else (0.4, 0.7, 1.0):
         d.add(f'<line x1="{L}" x2="{R}" y1="{Y(v):.1f}" y2="{Y(v):.1f}" stroke="{t["rule"]}" stroke-dasharray="2 5"/>')
     d.add(f'<line x1="{L}" x2="{R}" y1="{B}" y2="{B}" stroke="{t["rule"]}"/>')
-    d.text('loss', L, T - 14, 11.5, t['muted'], 'label')
+    small = 14 if narrow else 11.5  # phones show this at ~81%, so their labels start bigger
+    d.text('loss', L, T - 14, small, t['muted'], 'label')
     lx = R
     for label, dash in (('val', '5 4'), ('train', '')):
-        w = d.text(label, lx, T - 14, 11.5, t['muted'], 'label', 'end')
+        w = d.text(label, lx, T - 14, small, t['muted'], 'label', 'end')
         col = t['muted'] if dash else t['deep'][0]
         d.add(f'<line x1="{lx - w - 30:.1f}" x2="{lx - w - 8:.1f}" y1="{T - 18}" y2="{T - 18}" stroke="{col}" stroke-width="2" stroke-dasharray="{dash}"/>')
         lx -= w + 46
     ticks = [(2025, 6, 'Jun 2025'), (2025, 12, 'Dec'), (2026, 6, 'Jun 2026'), (2026, 9, 'now')] if narrow else \
         [(2025, 6, 'Jun 2025'), (2025, 9, 'Sep'), (2025, 12, 'Dec'), (2026, 3, 'Mar 2026'), (2026, 6, 'Jun'), (2026, 9, 'now')]
     for y, m, lab in ticks:
-        d.text(lab, min(max(X(months(y, m)), L + 30), R - 14), B + 20, 11, t['muted'], 'label', 'middle')
+        e = (34, 18, 22, 13.5) if narrow else (30, 14, 20, 11)  # left/right clamp, drop, size
+        d.text(lab, min(max(X(months(y, m)), L + e[0]), R - e[1]), B + e[2], e[3], t['muted'], 'label', 'middle')
 
     def path(val):
         pts = [(X(i / 10), Y(loss(i / 10, val))) for i in range(int(span * 10) + 1)]
@@ -288,7 +290,7 @@ def training(th, W):
         col = t['deep'][(k + 1) % 5]
         d.add(f'<g {at(a)}><circle cx="{cx:.1f}" cy="{cy:.1f}" r="4.5" fill="{col}"/>')
         if narrow:
-            d.text(str(k + 1), cx, cy + 20 if row < 0 else cy - 10, 11, t['ink'], 'label', 'middle')
+            d.text(str(k + 1), cx, cy + 24 if row < 0 else cy - 11, 15, t['ink'], 'display', 'middle')
         else:
             lines = wrap(label, lsize, 150, 'label')
             anchor = 'end' if cx > R - 150 else 'start'
@@ -308,18 +310,21 @@ def training(th, W):
     live_dot(d, ex - 2, ey, t['deep'][0], 4)
     d.add('</g>')
 
-    y = B + 50
+    y = B + (56 if narrow else 50)
     if narrow:
+        # The key: number and date on one line, the checkpoint under it at full width.
         for k, (yy, mo, label, _) in enumerate(CHECKPOINTS):
-            d.text(f'{k + 1}  {MONTHS[mo]} {yy}', 0, y, 11, t['muted'], 'label')
-            for line in wrap(label, 12, W - 120, 'label'):
-                d.text(line, 112, y, 12, t['ink'], 'label')
-                y += 17
-            y += 6
-        y += 12
-    for line in wrap('Fig. 1. Training loss, May 2025 to now. Illustrative; nobody measured it.', 12, W, 'label'):
-        d.text(line, 0, y, 12, t['muted'], 'label')
-        y += 18
+            d.add(f'<circle cx="6" cy="{y - 5}" r="5" fill="{t["deep"][(k + 1) % 5]}"/>')
+            d.text(f'{k + 1}  {MONTHS[mo]} {yy}', 20, y, 14, t['muted'], 'label')
+            for line in wrap(label, 16, W - 20, 'label'):
+                y += 22
+                d.text(line, 20, y, 16, t['ink'], 'label')
+            y += 32
+        y += 4
+    csize = 14 if narrow else 12
+    for line in wrap('Fig. 1. Training loss, May 2025 to now. Illustrative; nobody measured it.', csize, W, 'label'):
+        d.text(line, 0, y, csize, t['muted'], 'label')
+        y += csize * 1.5
     d.h = y
     d.save(f'training-{th}' + ('-m' if narrow else ''))
 
@@ -429,6 +434,7 @@ def readme():
         out.append(f'<details{" open" if is_open else ""}>\n<summary><b>{name}</b> &nbsp;{len(tasks)} &nbsp;<i>{line}</i></summary>\n\n'
                    + table(['Task', 'What it does'], rows) + '\n\n</details>')
     out += [
+        '> [!TIP]\n> ' + MORE,
         '## Toolbox',
         pic('embedding', 'Fig. 2. Toolbox embedding: ' + '; '.join(f'{k}: {", ".join(v[2])}' for k, v in EMBEDDING.items())),
         '## Intended use',

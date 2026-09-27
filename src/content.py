@@ -137,6 +137,11 @@ EMBEDDING = {
     'LLMs': (0.22, 0.76, ['OpenAI', 'Claude', 'Groq Whisper', 'Daytona']),
 }
 
+# Shown as a GitHub tip after the project list.
+MORE = ('**There’s more than what’s on GitHub.** Some of my work lives in private repos or never had one. '
+        f'To know more about me, or see projects that aren’t here, head to [rudhresh.com]({URL}) '
+        f'or email me at [{EMAIL}](mailto:{EMAIL}).')
+
 INTENDED = [
     'Internships in full-stack AI, from the model to the interface.',
     'Backend and systems work where the failure paths matter: money, access, safety.',

@@ -6,7 +6,7 @@
 
 - **Developed by:** Agne Rudhresh Ravichandran (goes by Rudy), Singapore
 - **Model type:** Full-stack AI engineer: model, system, interface
-- **Current checkpoint:** Founding Engineer at [BuilderLab](https://www.rudhresh.com/work/builderlab), Jul 2026 to now
+- **Current checkpoint:** Head of Software Engineering at [BuilderLab](https://www.rudhresh.com/work/builderlab), Jul 2026 to now
 - **Base model:** Applied AI & Analytics, Singapore Polytechnic (SP Scholar)
 - **Languages:** Python, TypeScript, English
 - **License:** Open to internships in full-stack AI
@@ -14,7 +14,7 @@
 
 ## Training
 
-<picture><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/training-dark-m.svg"><source media="(max-width: 600px)" srcset="assets/training-light-m.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/training-dark.svg"><img src="assets/training-light.svg" width="100%" alt="Fig. 1. An illustrative training-loss curve from May 2025 to now, with checkpoints: joins the SP AI Club committee; F1 Singapore GP: keeps the gates scanning; starts Stride; Head of Ops, SPAI; 5-day game jam: spike, then 1st; Founding Engineer, BuilderLab"></picture>
+<picture><source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="assets/training-dark-m.svg"><source media="(max-width: 600px)" srcset="assets/training-light-m.svg"><source media="(prefers-color-scheme: dark)" srcset="assets/training-dark.svg"><img src="assets/training-light.svg" width="100%" alt="Fig. 1. An illustrative training-loss curve from May 2025 to now, with checkpoints: joins the SP AI Club committee; F1 Singapore GP: keeps the gates scanning; starts Stride; Head of Ops, SPAI; 5-day game jam: spike, then 1st; Head of Software Engineering, BuilderLab"></picture>
 
 **Training data**
 
@@ -38,7 +38,7 @@
 
 | Where | What it had to do |
 |---|---|
-| [**BuilderLab**](https://www.rudhresh.com/work/builderlab)<br><sub>Founding Engineer, Jul 2026 to now</sub> | Backend, architecture and security in a live codebase, where the paths that move money have to be right. |
+| [**BuilderLab**](https://www.rudhresh.com/work/builderlab)<br><sub>Head of Software Engineering, Jul 2026 to now</sub> | Backend, architecture and security in a live codebase, where the paths that move money have to be right. |
 | [**BookMyShow Southeast Asia**](https://www.rudhresh.com/work/bookmyshow)<br><sub>Access control, F1 Singapore GP 2025</sub> | Kept entry running at the Formula 1 Singapore Grand Prix, one networked scanner at a time. |
 
 ## Downstream tasks

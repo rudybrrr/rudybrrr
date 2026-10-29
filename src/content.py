@@ -13,12 +13,12 @@ NAME_TOKENS = [('Rud', 49), ('hresh', 17010), (' R', 431), ('.', 13)]
 PROMPT = 'who are you, in one line?'
 ANSWER = ('I build full-stack AI products, from the model to the interface, '
           'for teams where being wrong is expensive.')
-META = ['Founding Engineer @ BuilderLab', 'Applied AI & Analytics @ SP']
+META = ['Head of Software Engineering @ BuilderLab', 'Applied AI & Analytics @ SP']
 
 DETAILS = [
     ('Developed by', 'Agne Rudhresh Ravichandran (goes by Rudy), Singapore'),
     ('Model type', 'Full-stack AI engineer: model, system, interface'),
-    ('Current checkpoint', f'Founding Engineer at [BuilderLab]({CASE}builderlab), Jul 2026 to now'),
+    ('Current checkpoint', f'Head of Software Engineering at [BuilderLab]({CASE}builderlab), Jul 2026 to now'),
     ('Base model', 'Applied AI & Analytics, Singapore Polytechnic (SP Scholar)'),
     ('Languages', 'Python, TypeScript, English'),
     ('License', 'Open to internships in full-stack AI'),
@@ -40,7 +40,7 @@ CHECKPOINTS = [
     (2025, 10, 'F1 Singapore GP: keeps the gates scanning', 0),
     (2026, 2, 'starts Stride; Head of Ops, SPAI', 0),
     (2026, 6, '5-day game jam: spike, then 1st', -1),
-    (2026, 7, 'Founding Engineer, BuilderLab', 1),
+    (2026, 7, 'Head of Software Engineering, BuilderLab', 1),
 ]
 
 EVALUATION = [
@@ -52,7 +52,7 @@ EVALUATION = [
 ]
 
 DEPLOYMENTS = [
-    ('BuilderLab', CASE + 'builderlab', 'Founding Engineer, Jul 2026 to now',
+    ('BuilderLab', CASE + 'builderlab', 'Head of Software Engineering, Jul 2026 to now',
      'Backend, architecture and security in a live codebase, where the paths that move money have to be right.'),
     ('BookMyShow Southeast Asia', CASE + 'bookmyshow', 'Access control, F1 Singapore GP 2025',
      'Kept entry running at the Formula 1 Singapore Grand Prix, one networked scanner at a time.'),
